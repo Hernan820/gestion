@@ -59,17 +59,17 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-                                    {{-- @guest
+                                    @guest
                                     @else
                                     @if (Route::has('login'))
-                                    @if(@Auth::user()->hasRole('administrador')) --}}
+                                    @if(@Auth::user()->hasRole('administrador'))
 
                                     <a class="dropdown-item" onclick="vistaregister()">Usuarios</a>
                                     <div class="dropdown-divider"></div>
 
-                                    {{-- @endif
                                     @endif
-                                    @endguest --}}
+                                    @endif
+                                    @endguest
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
