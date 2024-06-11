@@ -11,10 +11,13 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/master.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -64,7 +67,7 @@
                                     @if (Route::has('login'))
                                     @if(@Auth::user()->hasRole('administrador'))
 
-                                    <a class="dropdown-item" onclick="vistaregister()">Usuarios</a>
+                                    <a class="dropdown-item" onclick="vistausuarios()">Usuarios</a>
                                     <div class="dropdown-divider"></div>
 
                                     @endif

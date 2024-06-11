@@ -20,3 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+#rutas usuarios
+Route::get('usuarios', [App\Http\Controllers\Controller::class, 'vista_user'])->name('usuarios');
+Route::get('usuarios/mostrar', [App\Http\Controllers\UserController::class, 'show']);
+Route::post('usuarios/guardar', [App\Http\Controllers\UserController::class, 'create']);
+Route::post('usuario/editar/{id}', [App\Http\Controllers\UserController::class, 'edit']);
+Route::post('usuario/actualizar', [App\Http\Controllers\UserController::class, 'update']);
+Route::post('usuario/eliminar/{id}', [App\Http\Controllers\UserController::class, 'destroy']);
