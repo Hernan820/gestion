@@ -12,25 +12,26 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12 text-center">
-                <table class="table table-sm border rounded mb-1" style="/*background: white !important;*/">
+            <div class="col-md-12 text-center  table-responsive">
+                <table id="id_tblclientes" class="table table-sm border rounded mb-1" style="/*background: white !important;*/">
+                    {{-- <table id="registro_clientes_seminarios"
+                    class="table table-sm table-striped table-bordered dt-responsive nowrap datatable display text-center"
+                     cellspacing="0" cellpadding="3" width="100%"
+                    style="background-color: ;color: black;"> --}}
                     <thead>
                         <tr>
-                            <th scope="col">Sin estado</th>
-                            <th scope="col">Confirmado</th>
-                            <th scope="col">No answer</th>
-                            <th scope="col">Cancelados</th>
-                            <th scope="col">Total</th>
+                            <th class="col-md-">#</th>
+                            <th class="col-md-">Fechas</th>
+                            <th class="col-md-">Nombre Cliente</th>
+                            <th class="col-md-">Numero Telefono</th>
+                            <th class="col-md-">Estado</th>
+                            <th class="col-md-">Comentario</th>
+                            <th class="col-md-">Estado resgistro</th>
+                            <th class="col-md-"></th>
+                            <th class="col-md-"> Opciones&nbsp;</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                    <tbody scope="row">
                     </tbody>
                 </table>
             </div>
