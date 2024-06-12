@@ -108,7 +108,7 @@
 
     <div class="container mt-3">
         <div class="row justify-content-center">
-            <div class="col-md-9 table-responsive">
+            <div class="col-md-9 table-responsive border rounded bg-white">
                 <table id="tblusuariosgestion" class="table table-sm">
                     <thead>
                         <tr>

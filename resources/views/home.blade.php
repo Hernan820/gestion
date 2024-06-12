@@ -14,13 +14,13 @@
 
 <div class="container">
 
-    <div class="jumbotron jumbotron-fluid rounded border text-center mb-3 p-0" style="background: #EBEBEB">
+    <div class="jumbotron jumbotron-fluid rounded border text-center mb-3 p-0" style="background: #ffffff">
         <div class="container">
-            <p class="lead mt-3">Gestion de clientes encuentra tu casa</p>
+            <p class="lead mt-3 font-weight-bold">Gestion de clientes encuentra tu casa</p>
         </div>
     </div>
 
-    <div class="container mt-3">
+    <div class="container mt-3 bg-white border rounded">
         <div class="row ">
             <div class="col-md-12 table-responsive">
                 <table id="id_tblclientes" class="table table-sm border rounded mb-1 text-center">
