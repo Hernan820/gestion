@@ -27,3 +27,14 @@ Route::post('usuarios/guardar', [App\Http\Controllers\UserController::class, 'cr
 Route::post('usuario/editar/{id}', [App\Http\Controllers\UserController::class, 'edit']);
 Route::post('usuario/actualizar', [App\Http\Controllers\UserController::class, 'update']);
 Route::post('usuario/eliminar/{id}', [App\Http\Controllers\UserController::class, 'destroy']);
+
+
+#rutas formulario
+Route::post('formulariodatos', [App\Http\Controllers\FormclientController::class, 'show']);
+
+
+
+
+
+
+

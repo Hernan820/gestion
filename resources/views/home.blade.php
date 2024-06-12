@@ -1,9 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    @if(@Auth::user()->hasRole('administrador'))
+    <input type="hidden" name="rol" id="rol" value="administrador" />
+    @elseif (@Auth::user()->hasRole('usuario'))
+    <input type="hidden" name="rol" id="rol" value="usuario" />
+    @endif
+
+<script src="{{ asset('js/manager_clientes.js') }}" defer></script>
+
 <div class="container">
 
-    <div class="jumbotron jumbotron-fluid rounded border text-center mb-3" style="background: #EBEBEB">
+    <div class="jumbotron jumbotron-fluid rounded border text-center mb-3 p-0" style="background: #EBEBEB">
         <div class="container">
             {{-- <h1 class="display-4">Fluid jumbotron</h1> --}}
             <p class="lead mt-3">Gestion de clientes encuentra tu casa</p>
