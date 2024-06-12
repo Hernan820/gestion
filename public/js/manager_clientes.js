@@ -160,7 +160,7 @@ function tblformulario_seminarios(datosFiltrados_seminarios){
         data: datosFiltrados_seminarios,
         columns: [
             { data: 'id_forms',
-            width: "100px"},
+            width: "25px"},
             { data: 'fecha',
             width: "100px" },
             { data: 'Nombre' ,
@@ -174,12 +174,12 @@ function tblformulario_seminarios(datosFiltrados_seminarios){
             { data: 'estado_reg',
             width: "75px" },
             { data: "total",
-                width: "25px",
+                width: "50px",
                 className: "text-center",
                 render: function (data, type, row) {
-                  //  var id_notacita = row['id'];
+                    var id_form = row['id_forms'];
                     return `<td>
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" onclick='lista_seguimientos(`+id_form+`)' class="btn btn-primary">
                     <i class="bi bi-bell bi-3x icono_notas"></i> <span class="badge badge-light">`+data+`</span>
                     <span class="sr-only" style="display:none" >unread messages</span>
                   </button>
@@ -194,12 +194,12 @@ function tblformulario_seminarios(datosFiltrados_seminarios){
                 if(rol_usuario === "administrador"){
                 return (
                     `<select id="usuario_opcion" onchange="opcionecliente(this,` + data +`
-                    , this.closest('tr'))" class="form-control form-select-sm opciones pl-0 pr-0"  placeholder="" style="width: 75% !important;display: initial !important;height: calc(2.05rem + 2px) !important;"><option selected="selected" disabled selected>Acciones</option><option value="1">Seguimiento</option><option value="2">Eliminar</option><option value="4">Confirmado</option><option value="5">No answer</option><option value="6">cancelado</option><option value="3">Bitacora</option>  </select>`
+                    , this.closest('tr'))" class="form-control form-select-sm opciones pl-0 pr-0 text-center"  placeholder="" style="width: 100% !important;display: initial !important;height: calc(2.05rem + 2px) !important;"><option selected="selected" disabled selected>Acciones</option><option value="1">Seguimiento</option><option value="2">Eliminar</option><option value="4">Confirmado</option><option value="5">No answer</option><option value="6">cancelado</option><option value="3">Bitacora</option>  </select>`
                 );
                 }else if(rol_usuario === "usuario"){
                     return (
                         `<select id="usuario_opcion" onchange="opcionecliente(this,` + data +`
-                        , this.closest('tr'))" class="form-control form-select-sm opciones pl-0 pr-0"  placeholder="" style="width: 75% !important;display: initial !important;height: calc(2.05rem + 2px) !important;"><option selected="selected" disabled selected>Acciones</option><option value="1">Seguimiento</option><option value="4">Confirmado</option><option value="5">No answer</option><option value="6">cancelado</option><option value="3">Bitacora</option>  </select>`
+                        , this.closest('tr'))" class="form-control form-select-sm opciones pl-0 pr-0 text-center"  placeholder="" style="width: 100% !important;display: initial !important;height: calc(2.05rem + 2px) !important;"><option selected="selected" disabled selected>Acciones</option><option value="1">Seguimiento</option><option value="4">Confirmado</option><option value="5">No answer</option><option value="6">cancelado</option><option value="3">Bitacora</option>  </select>`
                     );
                 }
             }
@@ -214,8 +214,7 @@ function opcionecliente(option, id, row) {
 
     if (opt == 1) {
         lista_seguimientos(id);
-        $("#registropre_id").val(id);
-        $("#modal_seguimiento").modal("show");
+        
     } else if (opt == 2) {
         var estadoeli = 0;
         Swal.fire({
@@ -404,13 +403,15 @@ function lista_seguimientos(id){
     axios.post(principalUrl + "seguimiento/listado/" + id)
     .then((respuesta) => {
 
-        respuesta.data
         $("#tblseguimientos").html("");
         respuesta.data.forEach(function (element) {
             $("#tblseguimientos").append(
                 "<tr><td>" +element.name +"</td><td>" +moment(element.fecha, "YYYY-MM-DD HH:mm:ss").format("ddd DD MMM YYYY  hh:mm A")+"</td><td>" +element.seguimiento +"</td></tr>"
             );
         });
+
+        $("#registropre_id").val(id);
+        $("#modal_seguimiento").modal("show");
     })
     .catch((error) => {
         if (error.response) {
