@@ -193,12 +193,12 @@ function tblformulario_seminarios(datosFiltrados_seminarios){
 
                 if(rol_usuario === "administrador"){
                 return (
-                    `<select id="usuario_opcion" onchange="opcioneseminarios(this,` + data +`
+                    `<select id="usuario_opcion" onchange="opcionecliente(this,` + data +`
                     , this.closest('tr'))" class="form-control form-select-sm opciones pl-0 pr-0"  placeholder="" style="width: 75% !important;display: initial !important;height: calc(2.05rem + 2px) !important;"><option selected="selected" disabled selected>Acciones</option><option value="1">Seguimiento</option><option value="2">Eliminar</option><option value="4">Confirmado</option><option value="5">No answer</option><option value="6">cancelado</option><option value="3">Bitacora</option>  </select>`
                 );
                 }else if(rol_usuario === "usuario"){
                     return (
-                        `<select id="usuario_opcion" onchange="opcioneseminarios(this,` + data +`
+                        `<select id="usuario_opcion" onchange="opcionecliente(this,` + data +`
                         , this.closest('tr'))" class="form-control form-select-sm opciones pl-0 pr-0"  placeholder="" style="width: 75% !important;display: initial !important;height: calc(2.05rem + 2px) !important;"><option selected="selected" disabled selected>Acciones</option><option value="1">Seguimiento</option><option value="4">Confirmado</option><option value="5">No answer</option><option value="6">cancelado</option><option value="3">Bitacora</option>  </select>`
                     );
                 }
@@ -206,25 +206,216 @@ function tblformulario_seminarios(datosFiltrados_seminarios){
             },
         ],
     });
-
 }
 
 
+function opcionecliente(option, id, row) {
+    var opt = $(option).val();
+
+    if (opt == 1) {
+        lista_seguimientos(id);
+        $("#registropre_id").val(id);
+        $("#modal_seguimiento").modal("show");
+    } else if (opt == 2) {
+        var estadoeli = 0;
+        Swal.fire({
+            title: "Eliminar",
+            text: "¿Estas seguro de eliminar el registro?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post(principalUrl + "formulariodatos/estado/"+id+"/"+estadoeli)
+                    .then((respuesta) => {
+                       // datosforms();
+                        $(row).hide();
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Registro eliminado",
+                            showConfirmButton: false,
+                            timer: 1200,
+                        });
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response.data);
+                        }
+                    });
+            } else {
+            }
+        });
+    }else if (opt == 3) {
+
+        axios.post(principalUrl + "bitacora/listado/"+id)
+        .then((respuesta) => {
+            $('#lista_bitacora').html('');
+
+            if(respuesta.data.length === 0){
+                Swal.fire({
+                    position: "top-center",
+                    icon: "info",
+                    title: "No tiene bitacoras",
+                    showConfirmButton: false,
+                });
+                return;
+            }
+            respuesta.data.forEach(function (element) {
+                if(element.accion != 'Se creo la cita' || element.accion != 'reagendado'  ){
+                    $("#lista_bitacora").append(
+                        "<tr class='filas'><td>" +element.name+"</td><td>" + moment(element.fecha, "YYYY-MM-DD hh:mm A").format("DD-MMM-YY")  + "</td><td>" + moment(element.fecha, "YYYY-MM-DD hh:mm A").format("hh:mm A")  + "</td><td>" + element.accion +"</td></tr>"
+                    );
+                }
+            });     
+            $("#modal_bitacora_fmr").modal("show");
+        })
+        .catch((error) => {
+            if (error.response) {
+                console.log(error.response.data);
+            }
+        });
+
+    }else if (opt == 4) {
+        var num = 4;
+        Swal.fire({
+            text: "¿Estas seguro de confirmar este registro?",
+            showCancelButton: true,
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post(principalUrl + "formulariodatos/estado/"+id+"/"+num)
+                    .then((respuesta) => {
+                        $(row).find('td:eq(6)').text('Confirmado');
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Registro eliminado",
+                            showConfirmButton: false,
+                            timer: 1200,
+                        });
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response.data);
+                        }
+                    });
+            } else {
+            }
+        });
+    }else if (opt == 5) {
+        var num = 5;
+        Swal.fire({
+            text: "¿Quieres marcar como no answer el resgitro?",
+            showCancelButton: true,
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post(principalUrl + "formulariodatos/estado/"+id+"/"+num)
+                    .then((respuesta) => {
+                        $(row).find('td:eq(6)').text('No answer');
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Registro no answer",
+                            showConfirmButton: false,
+                            timer: 1200,
+                        });
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response.data);
+                        }
+                    });
+            } else {
+            }
+        });
+    }else if (opt == 6) {
+        var num = 6;
+        Swal.fire({
+            text: "¿Quieres marcar como cancelado el resgitro?",
+            showCancelButton: true,
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post(principalUrl + "formulariodatos/estado/"+id+"/"+num)
+                    .then((respuesta) => {
+                        $(row).find('td:eq(6)').text('Cancelado');
+
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Registro cancelado",
+                            showConfirmButton: false,
+                            timer: 1200,
+                        });
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            console.log(error.response.data);
+                        }
+                    });
+            } else {
+            }
+        });
+    }
+
+    $(option).prop("selectedIndex", 0);
+}
 
 
+$('#btnseguimiento').on('click', function() {
+    var id = $("#registropre_id").val();
+    var datos = new FormData();
+    datos.append("id_registro",id); 
+    datos.append("txtseguimiento",$("#txtseguimiento").val()); 
 
+    axios.post(principalUrl + "seguimiento/crear", datos)
+    .then((respuesta) => {
+        $("#txtseguimiento").val("");
+        $("#txtseguimiento").focus();
+        lista_seguimientos(id);
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Registro creado exitosamente!",
+            showConfirmButton: false,
+            timer: 1200,
+        });
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.log(error.response.data);
+        }
+    });
+});
 
+function lista_seguimientos(id){
 
+    axios.post(principalUrl + "seguimiento/listado/" + id)
+    .then((respuesta) => {
 
-
-
-
-
-
-
-
-
-
-
-
+        respuesta.data
+        $("#tblseguimientos").html("");
+        respuesta.data.forEach(function (element) {
+            $("#tblseguimientos").append(
+                "<tr><td>" +element.name +"</td><td>" +moment(element.fecha, "YYYY-MM-DD HH:mm:ss").format("ddd DD MMM YYYY  hh:mm A")+"</td><td>" +element.seguimiento +"</td></tr>"
+            );
+        });
+    })
+    .catch((error) => {
+        if (error.response) {
+            console.log(error.response.data);
+        }
+    });
+}
 

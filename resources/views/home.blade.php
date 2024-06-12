@@ -66,6 +66,100 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<!-- Modal Notas-->
+<div class="modal fade" id="modal_seguimiento" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Agregar Seguimiento
+                </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="frmseguimiento">
+
+                    {!! csrf_field() !!}
+                    <div class="form-group ">
+                        <label for="start">Seguimiento:</label>
+                        <textarea name="txtseguimiento" rows="2" required="" id="txtseguimiento" class="form-control"
+                            cols="50"></textarea>
+                    </div>
+                    <input type="hidden" name="registropre_id" id="registropre_id" value="" />
+
+                    <button type="button" class="btn btn-success" id="btnseguimiento">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="table-responsive">
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col-3">Usuario</th>
+                                    <th scope="col-3">Fecha Hora NY</th>
+                                    <th scope="col-6">Seguimiento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblseguimientos" scope="row">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal   bitacoras -->
+<div class="modal fade" id="modal_bitacora_fmr" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    BITACORAS
+                </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" id="idbitacora">
+
+                    {!! csrf_field() !!}
+                    <div class="table-responsive">
+                        <div class="col-md-12 table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Usuario</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Hora NY</th>
+                                        <th scope="col">Accion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista_bitacora" scope="row">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection

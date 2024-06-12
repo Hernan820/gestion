@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\seguimiento;
 use Illuminate\Http\Request;
+use App\Models\estadoregistro;
+use App\Models\bitacora;
 
 class SeguimientoController extends Controller
 {
@@ -22,9 +24,13 @@ class SeguimientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $seguimiento = new seguimiento;
+        $seguimiento->seguimiento         = $request->txtseguimiento;
+        $seguimiento->id_fomrscontigo   = $request->id_registro;
+        $seguimiento->id_usuario          = auth()->user()->id;
+        $seguimiento->save();
     }
 
     /**
@@ -44,9 +50,12 @@ class SeguimientoController extends Controller
      * @param  \App\Models\seguimiento  $seguimiento
      * @return \Illuminate\Http\Response
      */
-    public function show(seguimiento $seguimiento)
+    public function show($id)
     {
-        //
+        $seguimientos = seguimiento::join('users','users.id','=','seguimientos.id_usuario')
+        ->select("users.*","seguimientos.*","seguimientos.created_at as fecha")
+        ->where("seguimientos.id_fomrscontigo","=",$id)->get();
+        return response()->json($seguimientos);
     }
 
     /**

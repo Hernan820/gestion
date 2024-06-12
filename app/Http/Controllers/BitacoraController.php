@@ -44,9 +44,13 @@ class BitacoraController extends Controller
      * @param  \App\Models\bitacora  $bitacora
      * @return \Illuminate\Http\Response
      */
-    public function show(bitacora $bitacora)
+    public function show($id)
     {
-        //
+        $bitacora = bitacora::join("users","users.id","=","bitacoras.id_usuario")
+                    ->where("bitacoras.id_registrocliente","=",$id)
+                    ->get();
+
+      return $bitacora ;
     }
 
     /**
