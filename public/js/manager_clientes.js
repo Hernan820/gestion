@@ -1,17 +1,10 @@
 
 $(document).ready(function () {
-
     datosforms();
 });
 
-
-
 function datosforms(){
   
-
-    
-    let selectval = $('#seletc_estados').val(); 
-
     axios.post(principalUrl + "formulariodatos")
     .then((respuesta) => {
 
@@ -22,17 +15,9 @@ function datosforms(){
         let no_answer=0;
         let cancelado=0;
 
-        let contador = 0 ;  
-
     datosformulario.map(item => {
 
         if(item.estado != 0 && item.form_post_id !=7){
-
-            contador = contador+1;
-
-            if (contador == 95) {
-                var nada = "";
-            }
 
             var total_seguimientoform =item.total_seguimiento;
             var fecha_formateada = moment(item.form_date, "YYYY-MM-DD HH:mm:ss").format("ddd DD MMM YYYY hh:mm A");
@@ -46,13 +31,7 @@ function datosforms(){
         form = form.slice(6, -1);
     
         var elements = form.split(";");
-    
         let cleanData = {};
-
-        var keyestado = elements[7].split(":");
-        var estadofiltro = keyestado[keyestado.length - 1].trim().replace(/"/g, '');
-
-        // if (estadofiltro == selectval) {
         
         elements.forEach(function(element,i) {  
             var keyValue = element.split(":");
@@ -62,16 +41,20 @@ function datosforms(){
                 var formsiguiente = elements[i+1].split(":");
                 var valor = formsiguiente[formsiguiente.length - 1].trim().replace(/"/g, '');
                 cleanData[key] = valor;
-            }else if(key == "Teléfono" ){
+            }else if(key == "Teléfono ES" ){
                 var formsiguiente = elements[i+1].split(":");
                 var valor = formsiguiente[formsiguiente.length - 1].trim().replace(/"/g, '');
                 cleanData[key] = valor;
-            }else if(key == "estado" ){
+            }else if(key == "Teléfono US" ){
+                var formsiguiente = elements[i+1].split(":");
+                var valor = formsiguiente[formsiguiente.length - 1].trim().replace(/"/g, '');
+                cleanData[key] = valor;
+            }else if(key == "País" ){
                 
                 var formsiguiente = elements[i+1].split(":");
                 var valor = formsiguiente[formsiguiente.length - 1].trim().replace(/"/g, '');
                 cleanData[key] = valor;
-            }else if(key == "Comentario" ){
+            }else if(key == "Comentario o mensaje" ){
                 var formsiguiente = elements[i+1].split(":");
                 var valor = formsiguiente[formsiguiente.length - 1].trim().replace(/"/g, '');
                 cleanData[key] = valor;
@@ -116,21 +99,16 @@ function datosforms(){
         });
         return cleanData;
 
-    //  }else {
-    //     return null; 
-    //  }
     }).filter(item => item !== null); 
 
 
-    // $("#conteo_seminario").find('td:eq(0)').text(sin_estado);
-    // $("#conteo_seminario").find('td:eq(1)').text(confirmado);
-    // $("#conteo_seminario").find('td:eq(2)').text(no_answer);
-    // $("#conteo_seminario").find('td:eq(3)').text(cancelado);
-    // var total = sin_estado+confirmado+cancelado+no_answer;
+    $("#contador_gestion").find('td:eq(0)').text(sin_estado);
+    $("#contador_gestion").find('td:eq(1)').text(confirmado);
+    $("#contador_gestion").find('td:eq(2)').text(no_answer);
+    $("#contador_gestion").find('td:eq(3)').text(cancelado);
+    var total = sin_estado+confirmado+cancelado+no_answer;
 
-    // $("#conteo_seminario").find('td:eq(4)').text(total);
-
-
+    $("#contador_gestion").find('td:eq(4)').text(total);
 
      tblformulario_seminarios(datos_limpios);
 
@@ -141,8 +119,6 @@ function datosforms(){
         }
     });
 }
-
-
 
 function tblformulario_seminarios(datosFiltrados_seminarios){
     var rol_usuario = $("#rol").val();
@@ -160,21 +136,23 @@ function tblformulario_seminarios(datosFiltrados_seminarios){
         data: datosFiltrados_seminarios,
         columns: [
             { data: 'id_forms',
-            width: "25px"},
+            width: "15px"},
             { data: 'fecha',
             width: "100px" },
             { data: 'Nombre' ,
             width: "100px" },
-            { data: 'Teléfono' ,
+            { data: 'Teléfono ES' ,
             width: "100px" },
-            { data: 'estado' ,
+            { data: 'Teléfono US' ,
             width: "100px" },
-            { data: 'Comentario',
-            width: "50px" },
-            { data: 'estado_reg',
+            { data: 'País' ,
             width: "75px" },
+            { data: 'Comentario o mensaje',
+            width: "100px" },
+            { data: 'estado_reg',
+            width: "100px" },
             { data: "total",
-                width: "50px",
+                width: "100px",
                 className: "text-center",
                 render: function (data, type, row) {
                     var id_form = row['id_forms'];
@@ -207,7 +185,6 @@ function tblformulario_seminarios(datosFiltrados_seminarios){
         ],
     });
 }
-
 
 function opcionecliente(option, id, row) {
     var opt = $(option).val();
@@ -290,7 +267,7 @@ function opcionecliente(option, id, row) {
             if (result.isConfirmed) {
                 axios.post(principalUrl + "formulariodatos/estado/"+id+"/"+num)
                     .then((respuesta) => {
-                        $(row).find('td:eq(6)').text('Confirmado');
+                        $(row).find('td:eq(7)').text('Confirmado');
 
                         Swal.fire({
                             position: "top-end",
@@ -319,7 +296,7 @@ function opcionecliente(option, id, row) {
             if (result.isConfirmed) {
                 axios.post(principalUrl + "formulariodatos/estado/"+id+"/"+num)
                     .then((respuesta) => {
-                        $(row).find('td:eq(6)').text('No answer');
+                        $(row).find('td:eq(7)').text('No answer');
 
                         Swal.fire({
                             position: "top-end",
@@ -348,7 +325,7 @@ function opcionecliente(option, id, row) {
             if (result.isConfirmed) {
                 axios.post(principalUrl + "formulariodatos/estado/"+id+"/"+num)
                     .then((respuesta) => {
-                        $(row).find('td:eq(6)').text('Cancelado');
+                        $(row).find('td:eq(7)').text('Cancelado');
 
                         Swal.fire({
                             position: "top-end",
@@ -370,7 +347,6 @@ function opcionecliente(option, id, row) {
 
     $(option).prop("selectedIndex", 0);
 }
-
 
 $('#btnseguimiento').on('click', function() {
     var id = $("#registropre_id").val();

@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    .container {
+        max-width: 1300px !important;
+    }
+</style>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -20,17 +27,43 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <table class="table table-sm border rounded mb-1" style="background: white !important;">
+                <thead>
+                    <tr>
+                        <th scope="col">Sin estado</th>
+                        <th scope="col">Confirmado</th>
+                        <th scope="col">No answer</th>
+                        <th scope="col">Cancelados</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="contador_gestion">
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="container mt-3 bg-white border rounded">
         <div class="row ">
             <div class="col-md-12 table-responsive">
-                <table id="id_tblclientes" class="table table-sm border rounded mb-1 text-center">
+                <table id="id_tblclientes" class="table table-sm border rounded mb-1 text-center" style="width:1150px !important">
                     <thead>
                         <tr>
                             <th class="col-md-">#</th>
                             <th class="col-md-">Fechas</th>
                             <th class="col-md-">Nombre Cliente</th>
-                            <th class="col-md-">Numero Telefono</th>
-                            <th class="col-md-">Estado</th>
+                            <th class="col-md-">Numero Telefono ES</th>
+                            <th class="col-md-">Numero Telefono US</th>
+                            <th class="col-md-">País</th>
                             <th class="col-md-">Comentario</th>
                             <th class="col-md-">Estado resgistro</th>
                             <th class="col-md-"></th>

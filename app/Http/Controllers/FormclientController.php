@@ -54,6 +54,7 @@ class FormclientController extends Controller
         FROM wp_wpforms_db
         LEFT JOIN seguimientos on seguimientos.id_fomrscontigo = wp_wpforms_db.form_id
         LEFT JOIN estadoregistros on estadoregistros.id_form = wp_wpforms_db.form_id
+        WHERE wp_wpforms_db.form_post_id IN(1666)
         GROUP BY wp_wpforms_db.form_id
         ";
 
